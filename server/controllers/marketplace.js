@@ -107,8 +107,8 @@ export const buyWithPoints = async (req, res) => {
         });
         await order.save();
 
-        // Send Initial Email
-        const shippingLink = `${process.env.CLIENT_URL || "http://localhost:5173"}/shipping/${order._id}`;
+          // Send Initial Email
+          const shippingLink = `${process.env.CLIENT_URL || "https://ekta-sahyog.vercel.app"}/shipping/${order._id}`;
 
         await sendEmail({
             from: `"EktaSahyog Marketplace" <${process.env.EMAIL_USER}>`,

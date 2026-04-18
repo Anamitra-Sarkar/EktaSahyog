@@ -52,11 +52,15 @@ self.addEventListener('fetch', event => {
             });
 
           return response;
+        }).catch(err => {
+          console.warn('Fetch failed for', event.request.url, err);
+          // Silently fail for API/network requests, don't throw
+          return new Response('Network error', { status: 503 });
         });
       })
       .catch(err => {
-        console.warn('Fetch failed:', err);
-        // You can return a custom offline page here if needed
+        console.warn('Cache lookup failed:', err);
+        return new Response('Service unavailable', { status: 503 });
       })
   );
 });

@@ -46,8 +46,8 @@ const BackgroundBeams = () => {
                 className="absolute top-[20%] left-[30%] w-[500px] h-[500px] bg-unity-indigo/20 rounded-full blur-[150px] mix-blend-screen"
             />
 
-            {/* Grid Overlay */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+              {/* Grid Overlay - using CSS gradient instead of external resource */}
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-900/5 to-transparent opacity-20 mix-blend-overlay"></div>
         </div>
     );
 };

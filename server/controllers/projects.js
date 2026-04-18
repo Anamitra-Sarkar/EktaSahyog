@@ -131,9 +131,9 @@ export const joinProject = async (req, res) => {
                             
                             <!-- CTA Button -->
                             <div style="text-align: center;">
-                                <a href="http://localhost:5173/projects" style="display: inline-block; background: linear-gradient(90deg, #FF9933 0%, #FF8008 100%); color: white; text-decoration: none; padding: 16px 40px; border-radius: 50px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 15px rgba(255, 153, 51, 0.4); text-transform: uppercase; letter-spacing: 0.5px;">
-                                    View Project Dashboard
-                                </a>
+                                  <a href="https://ekta-sahyog.vercel.app/projects" style="display: inline-block; background: linear-gradient(90deg, #FF9933 0%, #FF8008 100%); color: white; text-decoration: none; padding: 16px 40px; border-radius: 50px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 15px rgba(255, 153, 51, 0.4); text-transform: uppercase; letter-spacing: 0.5px;">
+                                      View Project Dashboard
+                                  </a>
                             </div>
 
                         </td>
@@ -241,9 +241,9 @@ export const leaveProject = async (req, res) => {
                             
                             <!-- CTA Button -->
                             <div style="text-align: center; margin-top: 30px;">
-                                <a href="http://localhost:5173/projects" style="display: inline-block; background: white; color: #FF9933; border: 2px solid #FF9933; text-decoration: none; padding: 14px 30px; border-radius: 50px; font-weight: bold; font-size: 15px; transition: all 0.3s ease;">
-                                    Explore Other Projects →
-                                </a>
+                                  <a href="https://ekta-sahyog.vercel.app/projects" style="display: inline-block; background: white; color: #FF9933; border: 2px solid #FF9933; text-decoration: none; padding: 14px 30px; border-radius: 50px; font-weight: bold; font-size: 15px; transition: all 0.3s ease;">
+                                      Explore Other Projects →
+                                  </a>
                             </div>
                         </td>
                     </tr>
@@ -290,18 +290,18 @@ export const donateToProject = async (req, res) => {
                             description: `Supporting ${project.title} in ${project.location}`,
                             images: [project.image],
                         },
-                        unit_amount: amount * 100, // Amount in paise
-                    },
-                    quantity: 1,
-                },
-            ],
-            mode: 'payment',
-            success_url: `http://localhost:5173/projects?success=true&projectId=${projectId}`,
-            cancel_url: `http://localhost:5173/projects?canceled=true`,
-            metadata: {
-                projectId: projectId,
-                amount: amount
-            }
+          unit_amount: amount * 100, // Amount in paise
+                      },
+                      quantity: 1,
+                  },
+              ],
+              mode: 'payment',
+              success_url: `https://ekta-sahyog.vercel.app/projects?success=true&projectId=${projectId}`,
+              cancel_url: `https://ekta-sahyog.vercel.app/projects?canceled=true`,
+              metadata: {
+                  projectId: projectId,
+                  amount: amount
+              }
         });
 
         res.json({ id: session.id, url: session.url });

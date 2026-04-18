@@ -199,7 +199,7 @@ export const forgotPassword = async (req, res) => {
         await user.save();
 
         // Use Client URL for link
-        const resetUrl = `${process.env.CLIENT_URL || "http://localhost:5173"}/reset-password/${resetToken}`;
+        const resetUrl = `${process.env.CLIENT_URL || "https://ekta-sahyog.vercel.app"}/reset-password/${resetToken}`;
 
         await sendEmail({
             from: `"EktaSahyog Security" <${process.env.EMAIL_USER}>`,
@@ -333,16 +333,16 @@ export const googleCallback = async (req, res) => {
         const user = req.user;
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-        // Sanitize User
-        const userObj = user.toObject();
-        delete userObj.password;
-        const userStr = encodeURIComponent(JSON.stringify(userObj));
+          // Sanitize User
+          const userObj = user.toObject();
+          delete userObj.password;
+          const userStr = encodeURIComponent(JSON.stringify(userObj));
 
-        // Redirect to frontend with token AND user
-        const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
-        res.redirect(`${clientUrl}/auth?token=${token}&user=${userStr}&success=true`);
-    } catch (err) {
-        console.error("Google Auth Error:", err);
-        res.redirect(`${process.env.CLIENT_URL || "http://localhost:5173"}/auth?error=GoogleAuthFailed`);
+          // Redirect to frontend with token AND user
+          const clientUrl = process.env.CLIENT_URL || "https://ekta-sahyog.vercel.app";
+          res.redirect(`${clientUrl}/auth?token=${token}&user=${userStr}&success=true`);
+      } catch (err) {
+          console.error("Google Auth Error:", err);
+          res.redirect(`${process.env.CLIENT_URL || "https://ekta-sahyog.vercel.app"}/auth?error=GoogleAuthFailed`);
     }
 };
