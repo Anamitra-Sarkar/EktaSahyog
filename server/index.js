@@ -30,13 +30,22 @@ process.on('unhandledRejection', (err) => {
     console.error(err.name, err.message);
 });
 
+const ALLOWED_ORIGIN = (process.env.CLIENT_URL || 'https://ekta-sahyog.vercel.app').replace(/\/$/, '');
+
+const corsOptions = {
+    origin: ALLOWED_ORIGIN,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+};
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: process.env.CLIENT_URL || "https://ekta-sahyog.vercel.app",
-        methods: ["GET", "POST"]
+        origin: ALLOWED_ORIGIN,
+        methods: ['GET', 'POST'],
+        credentials: true
     }
 });
 
@@ -44,8 +53,8 @@ const io = new Server(httpServer, {
 app.use('/webhooks', webhookRoutes);
 
 // Middleware
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(cors());
 app.use(helmet());
 app.use(morgan('common'));
 app.use(passport.initialize());
@@ -229,15 +238,7 @@ io.on('connection', (socket) => {
 
     socket.on('report_user', (data) => {
         console.log('⚠️ USER REPORTED:', data);
-        // TODO: Save to database for admin review
-        // db.collection('reports').insertOne({
-        //    reportedUserId: data.reportedUserId,
-        //    reportedName: data.reportedName,
-        //    reporterName: data.reporterName,
-        //    timestamp: data.timestamp
-        // });
     });
-
 
     socket.on('disconnect', () => {
         onlineUsers.delete(socket.id);
@@ -258,7 +259,6 @@ import aiRoutes from './routes/ai.js';
 import paymentRoutes from './routes/payment.js';
 import gameRoutes from './routes/games.js';
 import hotspotRoutes from './routes/hotspots.js';
-
 import dashboardRoutes from './routes/dashboard.js';
 import newsletterRoutes from './routes/newsletter.js';
 import councilRoutes from './routes/council.js';
