@@ -16,7 +16,7 @@ const Navbar = () => {
     const { cartCount, setIsCartOpen } = useCart();
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-    const isAdmin = user?.email === 'admin@ektasahyog.com';
+    const isAdmin = user?.role === 'admin';
 
     useEffect(() => {
         const handleScroll = () => {
