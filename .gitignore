@@ -14,12 +14,7 @@ build
 # Misc
 .DS_Store
 Thumbs.db
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-server/.env
+# server/.env # Removed by Orchids to allow .env files
 
 # Logs
 npm-debug.log*
@@ -44,3 +39,4 @@ uploads/*
 
 # Specific Media
 src/Images/WhatsApp Image 2025-12-05 at 3.13.02 AM.jpeg
+.venv

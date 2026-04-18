@@ -39,8 +39,7 @@ function Tree({ position }) {
 }
 
 // --- 2. NEW: FLOWER PETAL RAIN (Marigolds) ---
-function FlowerRain() {
-    const count = 150;
+function FlowerRain({ count = 150 }) {
     const mesh = useRef();
 
     const particles = useMemo(() => {
@@ -79,8 +78,7 @@ function FlowerRain() {
 }
 
 // --- NEW: RISING SKY LANTERNS ---
-function SkyLanterns() {
-    const count = 100;
+function SkyLanterns({ count = 100 }) {
     const mesh = useRef();
 
     // Generate random initial positions
@@ -385,6 +383,9 @@ const Metaverse = () => {
     const [isLocked, setIsLocked] = useState(false);
     const navigate = useNavigate();
 
+    // Performance detection: low-end devices get reduced quality
+    const lowPerf = (navigator.hardwareConcurrency <= 4) || (window.innerWidth < 768);
+
     // --- FIX: SAFETY TRIGGER ---
     const clickSafety = useRef(false);
 
@@ -504,24 +505,24 @@ const Metaverse = () => {
                 />
             )}
 
-            <Canvas shadows camera={{ fov: 60, position: [0, 1.7, 12] }}>
-                <Suspense fallback={
-                    <Html center>
-                        <div className="flex flex-col items-center justify-center w-screen h-screen bg-[#1a0b2e] z-[1000]">
-                            <h2 className="text-4xl text-[#FFD700] font-serif animate-pulse mb-4">Loading Bazaar...</h2>
-                        </div>
-                    </Html>
-                }>
-                    <color attach="background" args={['#2a1b3e']} />
-                    <fog attach="fog" args={['#2a1b3e', 10, 90]} />
-                    <ambientLight intensity={1.0} color="#bbaadd" />
-                    <directionalLight position={[-10, 20, -10]} intensity={1.0} color="#e0d0e0" castShadow />
-                    <Stars radius={100} depth={50} count={7000} factor={4} saturation={0.5} fade speed={1} />
-                    <Cloud opacity={0.3} speed={0.2} width={60} depth={5} segments={20} position={[0, 25, -50]} color="#ff90b3" />
+              <Canvas shadows dpr={lowPerf ? [1, 1.5] : [1, 2]} camera={{ fov: 60, position: [0, 1.7, 12] }}>
+                  <Suspense fallback={
+                      <Html center>
+                          <div className="flex flex-col items-center justify-center w-screen h-screen bg-[#1a0b2e] z-[1000]">
+                              <h2 className="text-4xl text-[#FFD700] font-serif animate-pulse mb-4">Loading Bazaar...</h2>
+                          </div>
+                      </Html>
+                  }>
+                      <color attach="background" args={['#2a1b3e']} />
+                      <fog attach="fog" args={['#2a1b3e', 10, 90]} />
+                      <ambientLight intensity={1.0} color="#bbaadd" />
+                      <directionalLight position={[-10, 20, -10]} intensity={1.0} color="#e0d0e0" castShadow />
+                      {!lowPerf && <Stars radius={100} depth={50} count={7000} factor={4} saturation={0.5} fade speed={1} />}
+                      {!lowPerf && <Cloud opacity={0.3} speed={0.2} width={60} depth={5} segments={20} position={[0, 25, -50]} color="#ff90b3" />}
 
-                    {/* --- NEW: SKY LANTERNS --- */}
-                    <SkyLanterns />
-                    <FlowerRain /> {/* NEW: Marigold Petals */}
+                      {/* --- NEW: SKY LANTERNS --- */}
+                      <SkyLanterns count={lowPerf ? 30 : 100} />
+                      <FlowerRain count={lowPerf ? 50 : 250} /> {/* NEW: Marigold Petals */}
 
                     <Firework position={[-20, 15, -30]} color="red" />
                     <Firework position={[0, 20, -40]} color="gold" />

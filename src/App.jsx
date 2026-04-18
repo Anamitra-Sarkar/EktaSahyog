@@ -33,6 +33,7 @@ import DrishtiMilan from './pages/DrishtiMilan';
 import Cursor from './Components/ui/Cursor';
 import SplashCursor from './Components/ui/SplashCursor';
 import AIAssistant from './Components/features/AIAssistant';
+import InstallPrompt from './Components/ui/InstallPrompt';
 
 import Footer from './Components/layout/Footer';
 import ProtectedRoute from './Components/layout/ProtectedRoute';
@@ -42,6 +43,7 @@ function App() {
     <Router>
       <SplashCursor />
       <AIAssistant />
+      <InstallPrompt />
       <div className="min-h-screen bg-unity-dark text-white font-body selection:bg-unity-saffron selection:text-black flex flex-col">
         <Navbar />
         <div className="flex-grow">

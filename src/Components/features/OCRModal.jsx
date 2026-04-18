@@ -32,47 +32,75 @@ const OCRModal = ({ isOpen, onClose, onScanComplete }) => {
         }
     };
 
-    const preprocessImage = (imageSrc) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.src = imageSrc;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = img.width;
-                canvas.height = img.height;
+      const preprocessImage = (imageSrc) => {
+          return new Promise((resolve) => {
+              const img = new Image();
+              img.src = imageSrc;
+              img.onload = () => {
+                  const canvas = document.createElement('canvas');
+                  const ctx = canvas.getContext('2d');
+                  canvas.width = img.width;
+                  canvas.height = img.height;
 
-                // Draw original image
-                ctx.drawImage(img, 0, 0);
+                  // Draw original image
+                  ctx.drawImage(img, 0, 0);
 
-                // Get image data
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
+                  // Get image data
+                  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                  const data = imageData.data;
 
-                // Contrast and Brightness adjustment
-                const contrast = 1.2; // Increase contrast
-                const intercept = 128 * (1 - contrast);
+                  // Contrast and Brightness adjustment
+                  const contrast = 1.2; // Increase contrast
+                  const intercept = 128 * (1 - contrast);
 
-                for (let i = 0; i < data.length; i += 4) {
-                    // Grayscale
-                    const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                  for (let i = 0; i < data.length; i += 4) {
+                      // Grayscale
+                      const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
 
-                    // Apply contrast
-                    let newPixel = avg * contrast + intercept;
+                      // Apply contrast
+                      let newPixel = avg * contrast + intercept;
 
-                    // Binarization (Thresholding)
-                    newPixel = newPixel > 128 ? 255 : 0;
+                      // Binarization (Thresholding)
+                      newPixel = newPixel > 128 ? 255 : 0;
 
-                    data[i] = newPixel;     // Red
-                    data[i + 1] = newPixel; // Green
-                    data[i + 2] = newPixel; // Blue
-                }
+                      data[i] = newPixel;     // Red
+                      data[i + 1] = newPixel; // Green
+                      data[i + 2] = newPixel; // Blue
+                  }
 
-                ctx.putImageData(imageData, 0, 0);
-                resolve(canvas.toDataURL('image/jpeg'));
-            };
-        });
-    };
+                  ctx.putImageData(imageData, 0, 0);
+
+                  // NEW: Apply 3x3 mean blur for noise reduction
+                  const blurredImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                  const blurData = blurredImageData.data;
+                  const tempData = new Uint8ClampedArray(blurData);
+
+                  const width = canvas.width;
+                  const height = canvas.height;
+
+                  for (let y = 1; y < height - 1; y++) {
+                      for (let x = 1; x < width - 1; x++) {
+                          let sum = 0;
+                          // 3x3 neighborhood
+                          for (let dy = -1; dy <= 1; dy++) {
+                              for (let dx = -1; dx <= 1; dx++) {
+                                  const idx = ((y + dy) * width + (x + dx)) * 4;
+                                  sum += tempData[idx]; // Use red channel (all are same for binarized)
+                              }
+                          }
+                          const avg = Math.floor(sum / 9);
+                          const idx = (y * width + x) * 4;
+                          blurData[idx] = avg;      // Red
+                          blurData[idx + 1] = avg;  // Green
+                          blurData[idx + 2] = avg;  // Blue
+                      }
+                  }
+
+                  ctx.putImageData(blurredImageData, 0, 0);
+                  resolve(canvas.toDataURL('image/jpeg'));
+              };
+          });
+      };
 
     const processImage = async (originalImageSrc) => {
         setIsScanning(true);
@@ -86,12 +114,15 @@ const OCRModal = ({ isOpen, onClose, onScanComplete }) => {
             await new Promise(resolve => setTimeout(resolve, 1000));
             setScanStep(2);
 
-            // Step 3: Tesseract Recognition
-            const { data: { text } } = await Tesseract.recognize(
-                processedImage,
-                'eng',
-                { logger: m => console.log(m) }
-            );
+              // Step 3: Tesseract Recognition
+              const { data: { text } } = await Tesseract.recognize(
+                  processedImage,
+                  'eng',
+                  {
+                      logger: m => console.log(m),
+                      tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-:'
+                  }
+              );
 
             console.log("OCR Extracted Text:", text);
 

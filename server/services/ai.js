@@ -3,12 +3,35 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialize Groq API
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+// Initialize Groq API (gracefully handle missing key)
+let groq = null;
+if (process.env.GROQ_API_KEY) {
+  groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+} else {
+  console.warn('GROQ_API_KEY not set — AI features will be disabled.');
+}
+
+const groqRequired = () => {
+  if (!groq) throw new Error('GROQ_API_KEY is not configured.');
+};
+
+// --- TRANSLATION CACHE (in-memory FIFO, max 500 entries) ---
+const translationCache = new Map();
+const TRANSLATION_CACHE_MAX = 500;
+
+const getCachedTranslation = (key) => translationCache.get(key);
+const setCachedTranslation = (key, value) => {
+    if (translationCache.size >= TRANSLATION_CACHE_MAX) {
+        // Evict oldest entry (first key inserted)
+        translationCache.delete(translationCache.keys().next().value);
+    }
+    translationCache.set(key, value);
+};
 
 // --- 1. CHATBOT SERVICE ---
 export const generateText = async (prompt) => {
     try {
+        groqRequired();
         const systemContext = `
         You are "Ekta Saathi", the friendly AI assistant for "EktaSahyog" (Unity in Support).
 
@@ -59,6 +82,16 @@ export const generateText = async (prompt) => {
 // --- 2. TRANSLATION SERVICE ---
 export const translateText = async (text, sourceLang, targetLang = 'English') => {
     try {
+        groqRequired();
+
+        // Check cache first
+        const cacheKey = `${text}::${sourceLang}::${targetLang}`;
+        const cached = getCachedTranslation(cacheKey);
+        if (cached) {
+            console.log(`Translation cache hit: "${text}"`);
+            return cached;
+        }
+
         // Optimizing for speed using 8b-instant
         const prompt = `Translate the following text from ${sourceLang} to ${targetLang}. Output ONLY the translated text. Do not provide explanations or quotes.`;
 
@@ -78,6 +111,9 @@ export const translateText = async (text, sourceLang, targetLang = 'English') =>
             translation = translation.slice(1, -1);
         }
 
+        // Store in cache
+        setCachedTranslation(cacheKey, translation);
+
         console.log(`Groq Translation: "${text}" -> "${translation}"`);
         return translation;
 
@@ -90,6 +126,7 @@ export const translateText = async (text, sourceLang, targetLang = 'English') =>
 // --- 3. TOXICITY CHECK SERVICE ---
 export const isToxicMessage = async (text) => {
     try {
+        groqRequired();
         const completion = await groq.chat.completions.create({
             messages: [
                 {
@@ -120,6 +157,7 @@ export const isToxicMessage = async (text) => {
 // --- 4. SENTIMENT ANALYSIS SERVICE ---
 export const analyzeSentiment = async (text) => {
     try {
+        groqRequired();
         const completion = await groq.chat.completions.create({
             messages: [
                 {

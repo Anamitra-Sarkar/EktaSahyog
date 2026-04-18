@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
+if (!groq) console.warn('GROQ_API_KEY not set — Council AI features will be disabled.');
 
 // The "Soul Scripts" - System Prompts for each persona
 const PERSONAS = {

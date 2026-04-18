@@ -3,7 +3,7 @@ import User from '../models/User.js'; // Import User model
 import Stripe from 'stripe';
 import { sendEmail } from '../services/email.js'; // Import centralized service
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
 /* CREATE PROJECT */
 export const createProject = async (req, res) => {

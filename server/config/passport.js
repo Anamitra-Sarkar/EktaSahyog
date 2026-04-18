@@ -5,6 +5,9 @@ import User from '../models/User.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+    console.warn('GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET not set — Google OAuth disabled.');
+} else {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -59,3 +62,4 @@ passport.use(new GoogleStrategy({
 // Since we use JWT content handling in controller, we might not need session?
 // But Passport usually requires serialize/deserialize if using session: false?
 // We will use session: false in the route.
+} // end if Google credentials set

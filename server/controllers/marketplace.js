@@ -2,6 +2,7 @@ import Product from '../models/Product.js';
 import GameScore from '../models/GameScore.js';
 import Order from '../models/Order.js';
 import { sendEmail, getEmailTemplate } from '../services/email.js';
+import { uploadToCloudinary } from '../middleware/uploadMiddleware.js';
 
 /* CREATE PRODUCT */
 export const createProduct = async (req, res) => {
@@ -18,6 +19,12 @@ export const createProduct = async (req, res) => {
             pointsPrice // Added pointsPrice
         } = req.body;
 
+        // If a file was uploaded via multer, upload it to Cloudinary
+        let imageUrl = image;
+        if (req.file) {
+            imageUrl = await uploadToCloudinary(req.file.buffer);
+        }
+
         const newProduct = new Product({
             title,
             description,
@@ -26,7 +33,7 @@ export const createProduct = async (req, res) => {
             region,
             category,
             size,
-            image,
+            image: imageUrl,
             pointsPrice: pointsPrice || 10000, // Use provided points or default
             sellerId: req.user.id, // From auth middleware
         });
