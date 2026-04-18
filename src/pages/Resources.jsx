@@ -17,7 +17,7 @@ const Resources = () => {
 
     const fetchResources = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/resources?type=${filter}&search=${search}`);
+            const { data } = await axios.get(`https://ektasahyog.onrender.com/resources?type=${filter}&search=${search}`);
             setResources(data);
             setLoading(false);
         } catch (err) {

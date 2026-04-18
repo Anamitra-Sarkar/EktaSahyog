@@ -19,7 +19,7 @@ const Landing = () => {
     const [totalUsers, setTotalUsers] = useState(0);
 
     useEffect(() => {
-        fetch('http://localhost:5001/auth/users/count')
+        fetch('https://ektasahyog.onrender.com/auth/users/count')
             .then(res => res.json())
             .then(data => {
                 if (data.count) setTotalUsers(data.count);

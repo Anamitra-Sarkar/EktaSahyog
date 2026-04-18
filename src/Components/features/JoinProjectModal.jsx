@@ -13,7 +13,7 @@ const JoinProjectModal = ({ isOpen, onClose, project, onJoin }) => {
             const user = JSON.parse(localStorage.getItem('user'));
             if (!user) return alert("Please login to join a project.");
 
-            await fetch(`http://localhost:5001/projects/${project._id}/join`, {
+            await fetch(`https://ektasahyog.onrender.com/projects/${project._id}/join`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user._id })

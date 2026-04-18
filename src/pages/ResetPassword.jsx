@@ -100,7 +100,7 @@ const ResetPassword = () => {
         setMessage('');
 
         try {
-            const { data } = await axios.post(`http://localhost:5001/auth/reset-password/${token}`, { password });
+            const { data } = await axios.post(`https://ektasahyog.onrender.com/auth/reset-password/${token}`, { password });
             setMessage(data.message);
             setTimeout(() => {
                 navigate('/auth');

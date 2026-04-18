@@ -25,7 +25,7 @@ const WriteStoryModal = ({ isOpen, onClose, onStoryAdded }) => {
                 authorId: user ? user._id : null
             };
 
-            await fetch('http://localhost:5001/stories', {
+            await fetch('https://ektasahyog.onrender.com/stories', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

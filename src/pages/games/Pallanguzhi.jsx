@@ -51,7 +51,7 @@ const Pallanguzhi = () => {
     const awardPoints = async () => {
         if (!user) return;
         try {
-            await axios.post('http://localhost:5001/games/update-score', {
+            await axios.post('https://ektasahyog.onrender.com/games/update-score', {
                 userId: user._id,
                 points: 1000
             });

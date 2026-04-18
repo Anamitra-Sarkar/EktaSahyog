@@ -36,11 +36,11 @@ const MapPage = () => {
         const fetchAllData = async () => {
             try {
                 const [usersRes, projectsRes, productsRes, hotspotsRes, cultureRes] = await Promise.all([
-                    fetch('http://localhost:5001/auth/users/count'),
-                    fetch('http://localhost:5001/projects'),
-                    fetch('http://localhost:5001/marketplace'),
-                    fetch('http://localhost:5001/hotspots'),
-                    fetch('http://localhost:5001/culture')
+                    fetch('https://ektasahyog.onrender.com/auth/users/count'),
+                    fetch('https://ektasahyog.onrender.com/projects'),
+                    fetch('https://ektasahyog.onrender.com/marketplace'),
+                    fetch('https://ektasahyog.onrender.com/hotspots'),
+                    fetch('https://ektasahyog.onrender.com/culture')
                 ]);
 
                 const usersData = await usersRes.json();

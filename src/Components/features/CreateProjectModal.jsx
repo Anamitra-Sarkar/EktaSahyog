@@ -34,7 +34,7 @@ const CreateProjectModal = ({ isOpen, onClose, onProjectCreated }) => {
                 goalAmount: parseInt(formData.goalAmount)
             };
 
-            await axios.post('http://localhost:5001/projects', payload, config);
+            await axios.post('https://ektasahyog.onrender.com/projects', payload, config);
             onProjectCreated();
             onClose();
             setFormData({

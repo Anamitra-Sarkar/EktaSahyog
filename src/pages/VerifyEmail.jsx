@@ -116,7 +116,7 @@ const VerifyEmail = () => {
         setMessage('');
 
         try {
-            const { data } = await axios.post('http://localhost:5001/auth/verify-email', { email, otp: code });
+            const { data } = await axios.post('https://ektasahyog.onrender.com/auth/verify-email', { email, otp: code });
             setMessage(data.message);
             setTimeout(() => {
                 navigate('/auth', { state: { successMessage: "Email Verified Successfully! Please Login." } });
@@ -130,7 +130,7 @@ const VerifyEmail = () => {
 
     const handleResend = async () => {
         try {
-            await axios.post('http://localhost:5001/auth/resend-otp', { email });
+            await axios.post('https://ektasahyog.onrender.com/auth/resend-otp', { email });
             setMessage("New code sent!");
             setTimeout(() => setMessage(''), 3000);
         } catch (err) {

@@ -47,7 +47,7 @@ const CulturalHotspots = () => {
 
     const fetchHotspots = async () => {
         try {
-            const res = await axios.get('http://localhost:5001/hotspots');
+            const res = await axios.get('https://ektasahyog.onrender.com/hotspots');
             setHotspots(res.data);
             setFilteredHotspots(res.data);
         } catch (err) {
@@ -63,7 +63,7 @@ const CulturalHotspots = () => {
         setSubmitting(true);
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5001/hotspots', {
+            await axios.post('https://ektasahyog.onrender.com/hotspots', {
                 ...formData,
                 tags: formData.tags.split(',').map(t => t.trim())
             }, {
@@ -87,7 +87,7 @@ const CulturalHotspots = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.put(`http://localhost:5001/hotspots/${id}/like`, {}, {
+            const res = await axios.put(`https://ektasahyog.onrender.com/hotspots/${id}/like`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

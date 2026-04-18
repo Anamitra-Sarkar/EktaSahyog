@@ -27,7 +27,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }) => {
                 headers: { Authorization: `Bearer ${token}` }
             };
 
-            await axios.post('http://localhost:5001/marketplace/create', formData, config);
+            await axios.post('https://ektasahyog.onrender.com/marketplace/create', formData, config);
             onProductAdded();
             onClose();
             setFormData({ title: '', price: '', artisan: '', region: '', category: 'Textiles', size: '', description: '', image: '' });

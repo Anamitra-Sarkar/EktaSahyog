@@ -404,7 +404,7 @@ const Metaverse = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get('http://localhost:5001/marketplace');
+                const res = await axios.get('https://ektasahyog.onrender.com/marketplace');
                 if (Array.isArray(res.data)) setProducts(res.data);
                 else setProducts([]);
             } catch (err) {

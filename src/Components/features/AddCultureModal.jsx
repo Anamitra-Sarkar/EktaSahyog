@@ -24,7 +24,7 @@ const AddCultureModal = ({ isOpen, onClose, onCultureAdded }) => {
                 submittedBy: user ? user._id : null
             };
 
-            await fetch('http://localhost:5001/culture', {
+            await fetch('https://ektasahyog.onrender.com/culture', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

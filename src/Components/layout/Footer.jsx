@@ -15,7 +15,7 @@ const Footer = () => {
         if (!email) return;
         setIsLoading(true);
         try {
-            await axios.post('http://localhost:5001/newsletter/subscribe', { email });
+            await axios.post('https://ektasahyog.onrender.com/newsletter/subscribe', { email });
             setMessage('Subscribed successfully! 📧');
             setEmail('');
         } catch (err) {

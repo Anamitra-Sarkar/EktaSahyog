@@ -20,7 +20,7 @@ const Culture = () => {
 
     const fetchCulture = async () => {
         try {
-            const res = await fetch('http://localhost:5001/culture');
+            const res = await fetch('https://ektasahyog.onrender.com/culture');
             const data = await res.json();
             setAllCultureCards(data);
             setCultureCards(data);
@@ -58,7 +58,7 @@ const Culture = () => {
         }
 
         try {
-            const res = await fetch(`http://localhost:5001/culture/${card._id}/like`, {
+            const res = await fetch(`https://ektasahyog.onrender.com/culture/${card._id}/like`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user._id })

@@ -24,7 +24,7 @@ const CartDrawer = () => {
                 return;
             }
 
-            const res = await fetch('http://localhost:5001/payment/create-checkout-session', {
+            const res = await fetch('https://ektasahyog.onrender.com/payment/create-checkout-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

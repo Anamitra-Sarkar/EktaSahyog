@@ -15,7 +15,7 @@ const Stories = () => {
 
     const fetchStories = async () => {
         try {
-            const res = await fetch('http://localhost:5001/stories');
+            const res = await fetch('https://ektasahyog.onrender.com/stories');
             const data = await res.json();
             setAllStories(data);
             setStories(data);
@@ -49,7 +49,7 @@ const Stories = () => {
                 return;
             }
 
-            const res = await fetch(`http://localhost:5001/stories/${storyId}/like`, {
+            const res = await fetch(`https://ektasahyog.onrender.com/stories/${storyId}/like`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user._id })

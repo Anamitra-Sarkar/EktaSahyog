@@ -21,7 +21,7 @@ const AddResourceModal = ({ isOpen, onClose, onSuccess }) => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/resources', formData, {
+            await axios.post('https://ektasahyog.onrender.com/resources', formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             onSuccess();

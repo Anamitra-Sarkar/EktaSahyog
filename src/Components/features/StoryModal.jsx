@@ -17,7 +17,7 @@ const StoryModal = ({ isOpen, onClose, story, onUpdate }) => {
         }
 
         try {
-            const res = await fetch(`http://localhost:5001/stories/${story._id}/like`, {
+            const res = await fetch(`https://ektasahyog.onrender.com/stories/${story._id}/like`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user._id })
@@ -40,7 +40,7 @@ const StoryModal = ({ isOpen, onClose, story, onUpdate }) => {
 
         setIsSubmitting(true);
         try {
-            const res = await fetch(`http://localhost:5001/stories/${story._id}/comment`, {
+            const res = await fetch(`https://ektasahyog.onrender.com/stories/${story._id}/comment`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -65,7 +65,7 @@ const StoryModal = ({ isOpen, onClose, story, onUpdate }) => {
         if (!user) return;
 
         try {
-            const res = await fetch(`http://localhost:5001/stories/${story._id}/comment/${commentId}`, {
+            const res = await fetch(`https://ektasahyog.onrender.com/stories/${story._id}/comment/${commentId}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user._id })

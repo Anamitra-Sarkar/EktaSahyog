@@ -34,7 +34,7 @@ const CulturalGames = () => {
     const fetchScore = async () => {
         if (!user) return;
         try {
-            const res = await axios.get(`http://localhost:5001/games/score/${user._id}`);
+            const res = await axios.get(`https://ektasahyog.onrender.com/games/score/${user._id}`);
             setScore(res.data);
         } catch (err) {
             console.error("Error fetching score:", err);
@@ -43,7 +43,7 @@ const CulturalGames = () => {
 
     const fetchLeaderboard = async () => {
         try {
-            const res = await axios.get('http://localhost:5001/games/leaderboard');
+            const res = await axios.get('https://ektasahyog.onrender.com/games/leaderboard');
             setLeaderboard(res.data);
         } catch (err) {
             console.error("Error fetching leaderboard:", err);
@@ -77,7 +77,7 @@ const CulturalGames = () => {
 
             if (result.points > 0) {
                 try {
-                    await axios.post('http://localhost:5001/games/spin-wheel', {
+                    await axios.post('https://ektasahyog.onrender.com/games/spin-wheel', {
                         userId: user._id,
                         points: result.points
                     });

@@ -40,7 +40,7 @@ const ShippingForm = () => {
         e.preventDefault();
         setIsLoading(true);
         try {
-            await axios.post(`http://localhost:5001/marketplace/shipping/${orderId}`, formData);
+            await axios.post(`https://ektasahyog.onrender.com/marketplace/shipping/${orderId}`, formData);
             setIsSuccess(true);
         } catch (err) {
             console.error("Shipping Update Error", err);

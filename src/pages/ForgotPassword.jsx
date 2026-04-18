@@ -91,7 +91,7 @@ const ForgotPassword = () => {
         setMessage('');
 
         try {
-            const { data } = await axios.post('http://localhost:5001/auth/forgot-password', { email });
+            const { data } = await axios.post('https://ektasahyog.onrender.com/auth/forgot-password', { email });
             setMessage(data.message);
         } catch (err) {
             setError(err.response?.data?.error || "Failed to send reset email.");
