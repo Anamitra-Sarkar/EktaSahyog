@@ -58,7 +58,6 @@ const getMockData = (type) => {
             { name: 'Telugu', value: 8, users: 96 },
             { name: 'Marathi', value: 10, users: 120 }
         ],
-        // Updated to realistic 200-300 range as requested
         revenue: [
             { month: 'Jan', revenue: 210, products: 4 },
             { month: 'Feb', revenue: 245, products: 6 },
@@ -178,7 +177,7 @@ const Dashboard = () => {
         }
     }, []);
 
-    const isAdmin = user?.email === 'admin@ektasahyog.com';
+    const isAdmin = user?.role === 'admin';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -347,7 +346,7 @@ const Dashboard = () => {
                                 <XAxis dataKey={charts?.userGrowth?.length ? "_id" : "month"} stroke="#9ca3af" tick={{ fontSize: 11 }} />
                                 <YAxis stroke="#9ca3af" />
                                 <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }} />
-                                <Area type="monotone" dataKey={charts?.userGrowth?.length ? "users" : "users"} stroke="#3b82f6" strokeWidth={3} fill="url(#userGrad)" className="drop-shadow-[0_4px_12px_rgba(59,130,246,0.6)]" />
+                                <Area type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={3} fill="url(#userGrad)" className="drop-shadow-[0_4px_12px_rgba(59,130,246,0.6)]" />
                             </AreaChart>
                         </ResponsiveContainer>
                     </ChartCard>
@@ -459,7 +458,7 @@ const Dashboard = () => {
                         </ResponsiveContainer>
                     </ChartCard>
 
-                    {/* 11. Project Status - Bar Chart (Previously Pie/Radial) */}
+                    {/* 11. Project Status - Bar Chart */}
                     <ChartCard title="Project Pipeline" icon={<Target className="text-green-600" />} gradient="from-green-500/10 to-teal-600/5">
                         <ResponsiveContainer width="100%" height={300}>
                             <BarChart data={charts?.projectStatus?.length ? charts.projectStatus : [{ _id: 'Active', count: 28 }, { _id: 'Completed', count: 17 }]}>
