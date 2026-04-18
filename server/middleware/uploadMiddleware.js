@@ -34,7 +34,6 @@ export const upload = multer({
 export const uploadToCloudinary = (buffer, folder = 'ektasahyog/products') => {
     return new Promise((resolve, reject) => {
         if (!process.env.CLOUDINARY_CLOUD_NAME) {
-            // Fallback: return base64 data URL
             const base64 = buffer.toString('base64');
             return resolve(`data:image/jpeg;base64,${base64}`);
         }
@@ -52,4 +51,11 @@ export const uploadToCloudinary = (buffer, folder = 'ektasahyog/products') => {
         readable.push(null);
         readable.pipe(uploadStream);
     });
+};
+
+export const cloudinaryGuard = (req, res, next) => {
+    if (!process.env.CLOUDINARY_CLOUD_NAME) {
+        return next();
+    }
+    next();
 };

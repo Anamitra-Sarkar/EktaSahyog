@@ -1,9 +1,8 @@
-const CACHE_NAME = 'ekta-v1';
+const CACHE_NAME = 'ekta-v2';
 const urlsToCache = [
   '/',
-  '/index.html',
-  '/src/main.jsx',
-  '/src/index.css'
+  '/manifest.json',
+  '/vite.svg'
 ];
 
 // Install event - pre-cache app shell

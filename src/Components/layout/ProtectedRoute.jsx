@@ -9,9 +9,9 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
         return <Navigate to="/auth" replace />;
     }
 
-    if (adminOnly && user?.email !== 'admin@ektasahyog.com') {
-        return <Navigate to="/" replace />;
-    }
+      if (adminOnly && user?.role !== 'admin') {
+          return <Navigate to="/" replace />;
+      }
 
     return children;
 };
